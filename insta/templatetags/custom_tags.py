@@ -20,9 +20,12 @@ def has_user_liked_post(post, user):
         return "fa-heart-o"
 
 @register.simple_tag(takes_context=True)
-def active(context, pattern_or_urlname):
+def active(context, pattern_or_urlname, pk=0):
     try:
-        pattern = reverse(pattern_or_urlname)
+        if pk:
+            pattern = reverse(pattern_or_urlname,args=[pk])
+        else:
+            pattern = reverse(pattern_or_urlname)
     except NoReverseMatch:
         pattern = pattern_or_urlname
     path = context['request'].path
